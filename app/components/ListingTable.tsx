@@ -2,20 +2,41 @@
 
 import { useEffect, useState } from 'react';
 
-import { Listing } from '@/lib/data';
+type Listing = {
+    id: string;
+    title: string;
+    price: number;
+    status: 'pending' | 'approved' | 'rejected';
+    submittedBy: string;
+};
 
 export default function ListingTable() {
     const [data, setData] = useState<Listing[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('/api/listings')
-            .then((res) => res.json())
-            .then((data) => {
-                setData(data);
-                setLoading(false);
-            });
+        fetchListings();
     }, []);
+
+    const fetchListings = async () => {
+        setLoading(true);
+        const res = await fetch('/api/listings');
+        const json = await res.json();
+        setData(json);
+        setLoading(false);
+    };
+
+    const updateStatus = async (id: string, status: 'approved' | 'rejected') => {
+        const res = await fetch('/api/listings', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, status }),
+        });
+
+        if (res.ok) {
+            fetchListings(); // Refresh table data
+        }
+    };
 
     if (loading) return <p className="p-4">Loading...</p>;
 
@@ -37,12 +58,26 @@ export default function ListingTable() {
                         <tr key={listing.id} className="border-t">
                             <td className="p-2">{listing.title}</td>
                             <td className="p-2">₹{listing.price}</td>
-                            <td className="p-2">{listing.status}</td>
+                            <td className="p-2 capitalize">{listing.status}</td>
                             <td className="p-2">{listing.submittedBy}</td>
                             <td className="p-2 space-x-2">
-                                <button className="text-green-600">Approve</button>
-                                <button className="text-red-600">Reject</button>
-                                <button className="text-blue-600">Edit</button>
+                                <button
+                                    className="text-green-600 hover:underline"
+                                    onClick={() => updateStatus(listing.id, 'approved')}
+                                    disabled={listing.status === 'approved'}
+                                >
+                                    Approve
+                                </button>
+                                <button
+                                    className="text-red-600 hover:underline"
+                                    onClick={() => updateStatus(listing.id, 'rejected')}
+                                    disabled={listing.status === 'rejected'}
+                                >
+                                    Reject
+                                </button>
+                                <button className="text-blue-600 hover:underline">
+                                    Edit
+                                </button>
                             </td>
                         </tr>
                     ))}
