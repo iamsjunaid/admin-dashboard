@@ -1,4 +1,3 @@
-// Mock data for the admin dashboard
 export type Listing = {
   id: string;
   title: string;
@@ -7,6 +6,15 @@ export type Listing = {
   submittedBy: string;
 };
 
+export type AuditLog = {
+  id: string;
+  admin: string;
+  action: "approved" | "rejected" | "edited";
+  listingId: string;
+  timestamp: string;
+};
+
+// Mock data for listings
 export const listings: Listing[] = [
   {
     id: "1",
@@ -30,3 +38,6 @@ export const listings: Listing[] = [
     submittedBy: "user789",
   },
 ];
+
+// Mock data for audit logs
+export const auditLogs: AuditLog[] = [];
