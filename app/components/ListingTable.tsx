@@ -48,7 +48,7 @@ export default function ListingTable() {
             } else {
                 showMessage('Failed to update listing status', 'error');
             }
-        } catch (err) {
+        } catch {
             showMessage('Something went wrong', 'error');
         }
     };
