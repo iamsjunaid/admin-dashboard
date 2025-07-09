@@ -2,17 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
-type Listing = {
-    id: string;
-    title: string;
-    price: number;
-    status: 'pending' | 'approved' | 'rejected';
-    submittedBy: string;
-};
+import EditListingModal from './EditListingModal';
+
+import { Listing } from '@/lib/data';
 
 export default function ListingTable() {
     const [data, setData] = useState<Listing[]>([]);
     const [loading, setLoading] = useState(true);
+    const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
 
     useEffect(() => {
         fetchListings();
@@ -34,7 +31,7 @@ export default function ListingTable() {
         });
 
         if (res.ok) {
-            fetchListings(); // Refresh table data
+            fetchListings();
         }
     };
 
@@ -75,7 +72,10 @@ export default function ListingTable() {
                                 >
                                     Reject
                                 </button>
-                                <button className="text-blue-600 hover:underline">
+                                <button
+                                    className="text-blue-600 hover:underline"
+                                    onClick={() => setSelectedListing(listing)}
+                                >
                                     Edit
                                 </button>
                             </td>
@@ -83,6 +83,11 @@ export default function ListingTable() {
                     ))}
                 </tbody>
             </table>
+            <EditListingModal
+                listing={selectedListing}
+                onClose={() => setSelectedListing(null)}
+                onSave={fetchListings}
+            />
         </div>
     );
 }
