@@ -7,7 +7,10 @@ import AuditLogModal from './AuditLogModal';
 
 import { Listing } from '@/lib/data';
 
+import { useFeedback } from '../context/FeedbackContext';
+
 export default function ListingTable() {
+    const { showMessage } = useFeedback();
     const [data, setData] = useState<Listing[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
@@ -31,15 +34,22 @@ export default function ListingTable() {
         setLoading(false);
     };
 
-    const updateStatus = async (id: string, status: 'approved' | 'rejected') => {        
-        const res = await fetch(`/api/listings/${id}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id, status }),
-        });
+    const updateStatus = async (id: string, status: 'approved' | 'rejected') => {
+        try {
+            const res = await fetch(`/api/listings/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, status }),
+            });
 
-        if (res.ok) {
-            fetchListings();
+            if (res.ok) {
+                showMessage(`Listing ${status}`, 'success');
+                fetchListings();
+            } else {
+                showMessage('Failed to update listing status', 'error');
+            }
+        } catch (err) {
+            showMessage('Something went wrong', 'error');
         }
     };
 
