@@ -6,20 +6,21 @@ export async function GET() {
 }
 
 export async function PATCH(req: NextRequest) {
-  const { id, status } = await req.json();
-
-  const validStatuses = ["approved", "rejected"] as const;
-
-  if (!id || !validStatuses.includes(status)) {
-    return NextResponse.json({ error: "Invalid input" }, { status: 400 });
-  }
+  const { id, status, title, price } = await req.json();
 
   const listing = listings.find((l) => l.id === id);
   if (!listing) {
     return NextResponse.json({ error: "Listing not found" }, { status: 404 });
   }
 
-  listing.status = status;
+  // Allow status update
+  if (status && ["approved", "rejected"].includes(status)) {
+    listing.status = status;
+  }
+
+  // Allow title/price update
+  if (title) listing.title = title;
+  if (typeof price === "number") listing.price = price;
 
   return NextResponse.json({ message: "Listing updated", listing });
 }
