@@ -11,6 +11,12 @@ export default function ListingTable() {
     const [loading, setLoading] = useState(true);
     const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
 
+    const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
+
+    const filteredListings = filter === 'all'
+        ? data
+        : data.filter((listing) => listing.status === filter);
+
     useEffect(() => {
         fetchListings();
     }, []);
@@ -39,7 +45,24 @@ export default function ListingTable() {
 
     return (
         <div className="p-4">
-            <h2 className="text-xl font-bold mb-4">Listings</h2>
+            <div className='flex justify-between items-center mb-4'>
+
+                <h2 className="text-xl font-bold mb-4">Listings</h2>
+                <div className="mb-4">
+                    <label className="text-sm font-medium mr-2">Filter by Status:</label>
+                    <select
+                        className="border px-2 py-1 rounded"
+                        value={filter}
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFilter(e.target.value as 'all' | 'pending' | 'approved' | 'rejected')}
+                    >
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+            </div>
+
             <table className="w-full border">
                 <thead>
                     <tr className="bg-gray-100">
@@ -51,7 +74,7 @@ export default function ListingTable() {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((listing) => (
+                    {filteredListings.map((listing) => (
                         <tr key={listing.id} className="border-t">
                             <td className="p-2">{listing.title}</td>
                             <td className="p-2">₹{listing.price}</td>
