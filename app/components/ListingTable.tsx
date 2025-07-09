@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import EditListingModal from './EditListingModal';
+import AuditLogModal from './AuditLogModal';
 
 import { Listing } from '@/lib/data';
 
@@ -10,6 +11,7 @@ export default function ListingTable() {
     const [data, setData] = useState<Listing[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
+    const [showAudit, setShowAudit] = useState(false);
 
     const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
 
@@ -29,8 +31,8 @@ export default function ListingTable() {
         setLoading(false);
     };
 
-    const updateStatus = async (id: string, status: 'approved' | 'rejected') => {
-        const res = await fetch('/api/listings', {
+    const updateStatus = async (id: string, status: 'approved' | 'rejected') => {        
+        const res = await fetch(`/api/listings/${id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id, status }),
@@ -60,7 +62,11 @@ export default function ListingTable() {
                         <option value="approved">Approved</option>
                         <option value="rejected">Rejected</option>
                     </select>
+                    <button className="mb-4 bg-gray-800 text-white px-4 py-2 rounded" onClick={() => setShowAudit(true)}>
+                        View Audit Logs
+                    </button>
                 </div>
+
             </div>
 
             <table className="w-full border">
@@ -74,43 +80,55 @@ export default function ListingTable() {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredListings.map((listing) => (
-                        <tr key={listing.id} className="border-t">
-                            <td className="p-2">{listing.title}</td>
-                            <td className="p-2">₹{listing.price}</td>
-                            <td className="p-2 capitalize">{listing.status}</td>
-                            <td className="p-2">{listing.submittedBy}</td>
-                            <td className="p-2 space-x-2">
-                                <button
-                                    className="text-green-600 hover:underline"
-                                    onClick={() => updateStatus(listing.id, 'approved')}
-                                    disabled={listing.status === 'approved'}
-                                >
-                                    Approve
-                                </button>
-                                <button
-                                    className="text-red-600 hover:underline"
-                                    onClick={() => updateStatus(listing.id, 'rejected')}
-                                    disabled={listing.status === 'rejected'}
-                                >
-                                    Reject
-                                </button>
-                                <button
-                                    className="text-blue-600 hover:underline"
-                                    onClick={() => setSelectedListing(listing)}
-                                >
-                                    Edit
-                                </button>
+
+                    {filteredListings.length === 0 ? (
+                        <tr>
+                            <td colSpan={5} className="text-center p-4 text-gray-500">
+                                No listings found.
                             </td>
                         </tr>
-                    ))}
+                    ) : (
+                        filteredListings.map((listing) => (
+                            <tr key={listing.id} className="border-t">
+                                <td className="p-2">{listing.title}</td>
+                                <td className="p-2">₹{listing.price}</td>
+                                <td className="p-2 capitalize">{listing.status}</td>
+                                <td className="p-2">{listing.submittedBy}</td>
+                                <td className="p-2 space-x-2">
+                                    <button
+                                        className="text-green-600 hover:underline"
+                                        onClick={() => updateStatus(listing.id, 'approved')}
+                                        disabled={listing.status === 'approved'}
+                                    >
+                                        Approve
+                                    </button>
+                                    <button
+                                        className="text-red-600 hover:underline"
+                                        onClick={() => updateStatus(listing.id, 'rejected')}
+                                        disabled={listing.status === 'rejected'}
+                                    >
+                                        Reject
+                                    </button>
+                                    <button
+                                        className="text-blue-600 hover:underline"
+                                        onClick={() => setSelectedListing(listing)}
+                                    >
+                                        Edit
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    )}
                 </tbody>
             </table>
+            {/* Edit Listing Modal */}
             <EditListingModal
                 listing={selectedListing}
                 onClose={() => setSelectedListing(null)}
                 onSave={fetchListings}
             />
+            {/* Audit Modal */}
+            <AuditLogModal open={showAudit} onClose={() => setShowAudit(false)} />
         </div>
     );
 }
