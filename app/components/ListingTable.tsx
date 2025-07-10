@@ -2,8 +2,13 @@
 
 import { useEffect, useState } from 'react';
 
+import { Check, X, Pencil } from 'lucide-react';
+
 import EditListingModal from './EditListingModal';
 import AuditLogModal from './AuditLogModal';
+
+import Button from '../components/ui/Button';
+import TooltipWithIcon from '../components/ui/TooltipWithIcon';
 
 import { Listing } from '@/lib/data';
 
@@ -61,9 +66,9 @@ export default function ListingTable() {
 
                 <h2 className="text-md font-semibold mb-4">Manage Listings</h2>
                 <div className="mb-4">
-                    <label className="text-sm font-medium mr-2">Filter by Status:</label>
+                    <label className="text-sm font-medium mr-1 p-2">Filter by Status:</label>
                     <select
-                        className="border px-2 py-1 rounded"
+                        className="bg-gray-200 px-2 py-1 rounded border-none"
                         value={filter}
                         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFilter(e.target.value as 'all' | 'pending' | 'approved' | 'rejected')}
                     >
@@ -72,65 +77,63 @@ export default function ListingTable() {
                         <option value="approved">Approved</option>
                         <option value="rejected">Rejected</option>
                     </select>
-                    <button className="mb-4 bg-gray-800 text-white px-4 py-2 rounded" onClick={() => setShowAudit(true)}>
+                    <Button variant='secondary' className='ml-2' onClick={() => setShowAudit(true)}>
                         View Audit Logs
-                    </button>
+                    </Button>
                 </div>
 
             </div>
-
-            <table className="w-full border">
-                <thead>
-                    <tr className="bg-gray-100">
-                        <th className="text-left p-2">Title</th>
-                        <th className="text-left p-2">Price</th>
-                        <th className="text-left p-2">Status</th>
-                        <th className="text-left p-2">Submitted By</th>
-                        <th className="text-left p-2">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    {filteredListings.length === 0 ? (
-                        <tr>
-                            <td colSpan={5} className="text-center p-4 text-gray-500">
-                                No listings found.
-                            </td>
+            <div className='rounded-lg shadow-sm overflow-hidden'>
+                <table className="w-full text-sm">
+                    <thead>
+                        <tr className="bg-gray-100">
+                            <th className="text-left p-2">Title</th>
+                            <th className="text-left p-2">Price</th>
+                            <th className="text-left p-2">Status</th>
+                            <th className="text-left p-2">Submitted By</th>
+                            <th className="text-left p-2">Actions</th>
                         </tr>
-                    ) : (
-                        filteredListings.map((listing) => (
-                            <tr key={listing.id} className="border-t">
-                                <td className="p-2">{listing.title}</td>
-                                <td className="p-2">₹{listing.price}</td>
-                                <td className="p-2 capitalize">{listing.status}</td>
-                                <td className="p-2">{listing.submittedBy}</td>
-                                <td className="p-2 space-x-2">
-                                    <button
-                                        className="text-green-600 hover:underline"
-                                        onClick={() => updateStatus(listing.id, 'approved')}
-                                        disabled={listing.status === 'approved'}
-                                    >
-                                        Approve
-                                    </button>
-                                    <button
-                                        className="text-red-600 hover:underline"
-                                        onClick={() => updateStatus(listing.id, 'rejected')}
-                                        disabled={listing.status === 'rejected'}
-                                    >
-                                        Reject
-                                    </button>
-                                    <button
-                                        className="text-blue-600 hover:underline"
-                                        onClick={() => setSelectedListing(listing)}
-                                    >
-                                        Edit
-                                    </button>
+                    </thead>
+                    <tbody>
+
+                        {filteredListings.length === 0 ? (
+                            <tr>
+                                <td colSpan={5} className="text-center p-4 text-gray-500">
+                                    No listings found.
                                 </td>
                             </tr>
-                        ))
-                    )}
-                </tbody>
-            </table>
+                        ) : (
+                            filteredListings.map((listing) => (
+                                <tr key={listing.id} >
+                                    <td className="p-2 border-b-1 border-gray-200"><p>{listing.title}</p></td>
+                                    <td className="p-2 border-b-1 border-gray-200"><p>₹{listing.price}</p></td>
+                                    <td className="p-2 border-b-1 border-gray-200 capitalize text-center"><p className='bg-gray-100 w-1/2 rounded'>{listing.status}</p></td>
+                                    <td className="p-2 border-b-1 border-gray-200"><p>{listing.submittedBy}</p></td>
+                                    <td className="p-2 border-b-1 border-gray-200 space-x-2">
+                                        <TooltipWithIcon
+                                            label="Approve"
+                                            icon={<Check size={16} />}
+                                            onClick={() => updateStatus(listing.id, 'approved')}
+                                        />
+
+                                        <TooltipWithIcon
+                                            label="Reject"
+                                            icon={<X size={16} />}
+                                            onClick={() => updateStatus(listing.id, 'rejected')}
+                                        />
+
+                                        <TooltipWithIcon
+                                            label="Edit"
+                                            icon={<Pencil size={16} />}
+                                            onClick={() => setSelectedListing(listing)}
+                                        />
+                                    </td>
+                                </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
+            </div>
             {/* Edit Listing Modal */}
             <EditListingModal
                 listing={selectedListing}
