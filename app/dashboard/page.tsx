@@ -15,7 +15,12 @@ export default async function DashboardPage() {
 
     const onClose = async () => {
         'use server';
-        cookieStore.delete('auth');
+        const cookieStore = await cookies();
+        cookieStore.set('auth', '', {
+            expires: new Date(0),
+            path: '/',
+            httpOnly: true
+        });
         redirect('/');
     };
 
