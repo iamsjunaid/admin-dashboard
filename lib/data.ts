@@ -27,6 +27,3 @@ for (let i = 1; i <= 20; i++) {
     submittedBy: `user${i}`,
   });
 }
-
-// Mock data for audit logs
-export const auditLogs: AuditLog[] = [];

@@ -19,6 +19,7 @@ export default function AuditLogModal({ open, onClose }: { open: boolean; onClos
 
     useEffect(() => {
         if (open) {
+            setLoading(true);
             const fetchLogs = async () => {
                 const res = await fetch("/api/audit-logs");
                 const data = await res.json();

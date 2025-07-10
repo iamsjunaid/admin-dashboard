@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { listings, auditLogs } from '@/lib/data';
+import { listings } from '@/lib/data';
+import { AuditLog } from '@/lib/data';
+import { promises as fs } from 'fs';
+import path from 'path';
+
+const AUDIT_LOGS_PATH = path.join(process.cwd(), 'audit-logs.json');
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
   try {
@@ -19,16 +24,26 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       .find((c) => c.startsWith('admin_email='))
       ?.split('=')[1] ?? 'unknown';
 
-    auditLogs.push({
-      id: `${auditLogs.length + 1}`,
+    // File-based audit log append
+    let logs: AuditLog[] = [];
+    try {
+      const data = await fs.readFile(AUDIT_LOGS_PATH, 'utf-8');
+      logs = JSON.parse(data);
+    } catch (err) {
+      // If file doesn't exist, start with empty logs
+      if (!(typeof err === 'object' && err !== null && 'code' in err && (err as { code?: string }).code === 'ENOENT')) {
+        throw err;
+      }
+    }
+    const newLog: AuditLog = {
+      id: `${logs.length + 1}`,
       admin: decodeURIComponent(adminEmail),
       action: status.toUpperCase(),
       listingId: listing.id,
       timestamp: new Date().toISOString(),
-    });
-
-    console.log(`auditLogs`, auditLogs);
-    
+    };
+    logs.push(newLog);
+    await fs.writeFile(AUDIT_LOGS_PATH, JSON.stringify(logs, null, 2), 'utf-8');
 
     return NextResponse.json({ message: 'Status updated successfully' });
   } catch (error) {
