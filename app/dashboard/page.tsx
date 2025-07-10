@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 import ListingTable from '../components/ListingTable';
 
 import Toast from '../components/Toast';
+import TooltipWithIcon from '../components/ui/TooltipWithIcon';
+import { Power } from 'lucide-react';
 
 export default async function DashboardPage() {
     const cookieStore = await cookies();
@@ -11,9 +13,23 @@ export default async function DashboardPage() {
 
     if (!isAuthenticated) redirect('/');
 
+    const onClose = async () => {
+        'use server';
+        cookieStore.delete('auth');
+        redirect('/');
+    };
+
     return (
-        <main className="">
-            <h1 className="text-lg font-bold mb-4 border-b-2 p-2">Car Rentals Admin Dashboard</h1>
+        <main>
+            <div className="flex justify-between items-center mb-4 text-lg font-bold border-b-2 px-4 py-2">
+                <h1>Car Rentals Admin Dashboard</h1>
+                <TooltipWithIcon
+                    label="Logout"
+                    className='bg-gray-200 hover:bg-gray-400 rounded p-2'
+                    icon={<Power size={16} color='red' />}
+                    onClick={onClose}
+                />
+            </div>
             <ListingTable />
             <Toast />
         </main>
