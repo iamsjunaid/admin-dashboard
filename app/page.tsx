@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+import Button from './components/ui/Button';
+
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -47,9 +49,9 @@ export default function LoginPage() {
           required
         />
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        <button type="submit" className="mt-2 w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+        <Button type="submit" className="mt-2 w-full" variant="primary">
           Login
-        </button>
+        </Button>
       </form>
     </main>
   );
