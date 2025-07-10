@@ -10,8 +10,8 @@ export default async function DashboardPage() {
     if (!isAuthenticated) redirect('/');
 
     return (
-        <main className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+        <main className="">
+            <h1 className="text-lg font-bold mb-4 border-b-2 ">Car Listings Dashboard</h1>
             <ListingTable />
             <Toast />
         </main>

@@ -28,7 +28,7 @@ export default function LoginPage() {
 
   return (
     <main className="flex items-center justify-center h-screen bg-gray-100">
-      <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+      <form onSubmit={handleLogin} className="bg-white p-6 rounded-xl shadow-md w-full max-w-sm">
         <h2 className="text-xl font-bold mb-4">Admin Login</h2>
         <input
           type="email"

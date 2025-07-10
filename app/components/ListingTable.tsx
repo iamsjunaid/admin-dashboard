@@ -59,7 +59,7 @@ export default function ListingTable() {
         <div className="p-4">
             <div className='flex justify-between items-center mb-4'>
 
-                <h2 className="text-xl font-bold mb-4">Listings</h2>
+                <h2 className="text-md font-semibold mb-4">Manage Listings</h2>
                 <div className="mb-4">
                     <label className="text-sm font-medium mr-2">Filter by Status:</label>
                     <select
