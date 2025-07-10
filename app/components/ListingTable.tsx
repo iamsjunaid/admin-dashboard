@@ -23,7 +23,6 @@ export default function ListingTable() {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-
     const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
 
     const filteredListings = filter === 'all'
@@ -149,7 +148,7 @@ export default function ListingTable() {
                     <button
                         key={i}
                         onClick={() => setCurrentPage(i + 1)}
-                        className={`p-2 w-[2.4rem] rounded ${currentPage === i + 1 ? 'bg-black text-white' : 'bg-gray-200'
+                        className={`p-2 w-[2.4rem] rounded cursor-pointer ${currentPage === i + 1 ? 'bg-black text-white' : 'bg-gray-200'
                             }`}
                     >
                         {i + 1}
