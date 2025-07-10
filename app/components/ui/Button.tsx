@@ -33,7 +33,7 @@ const Button: React.FC<ButtonProps> = ({
             disabled={disabled}
             onClick={onClick}
             className={classNames(
-                'px-4 py-2 rounded-md transition-all text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed',
+                'px-4 py-2 rounded-md transition-all text-sm font-medium disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed',
                 variantStyles[variant],
                 className
             )}
