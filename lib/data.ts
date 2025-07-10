@@ -15,29 +15,18 @@ export type AuditLog = {
 };
 
 // Mock data for listings
-export const listings: Listing[] = [
-  {
-    id: "1",
-    title: "Hyundai i20",
-    price: 3500,
-    status: "pending",
-    submittedBy: "user123",
-  },
-  {
-    id: "2",
-    title: "Maruti Swift",
-    price: 3000,
-    status: "approved",
-    submittedBy: "user456",
-  },
-  {
-    id: "3",
-    title: "Honda City",
-    price: 4500,
-    status: "rejected",
-    submittedBy: "user789",
-  },
-];
+export const listings: Listing[] = [];
+
+// loop through the listings and create mock data
+for (let i = 1; i <= 20; i++) {
+  listings.push({
+    id: i.toString(),
+    title: `Listing ${i}`,
+    price: Math.floor(Math.random() * 10000) + 1000,
+    status: i % 3 === 0 ? "approved" : i % 3 === 1 ? "pending" : "rejected",
+    submittedBy: `user${i}`,
+  });
+}
 
 // Mock data for audit logs
 export const auditLogs: AuditLog[] = [];
