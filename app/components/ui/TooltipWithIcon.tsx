@@ -19,7 +19,7 @@ const TooltipWithIcon: FC<Props> = ({ label, icon, onClick, className }) => {
                     <button
                         onClick={onClick}
                         className={classNames(
-                            'p-2 rounded hover:bg-gray-100 transition-colors',
+                            'p-2 rounded hover:bg-gray-100 transition-colors cursor-pointer',
                             className
                         )}
                         aria-label={label}
