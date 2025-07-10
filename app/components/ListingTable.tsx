@@ -20,12 +20,21 @@ export default function ListingTable() {
     const [loading, setLoading] = useState(true);
     const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
     const [showAudit, setShowAudit] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+
 
     const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
 
     const filteredListings = filter === 'all'
         ? data
         : data.filter((listing) => listing.status === filter);
+
+    const totalPages = Math.ceil(filteredListings.length / itemsPerPage);
+    const paginatedListings = filteredListings.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
 
     useEffect(() => {
         fetchListings();
@@ -68,7 +77,7 @@ export default function ListingTable() {
                 <div className="mb-4">
                     <label className="text-sm font-medium mr-1 p-2">Filter by Status:</label>
                     <select
-                        className="bg-gray-200 px-2 py-1 rounded border-none"
+                        className="bg-gray-200 px-2 py-1 rounded border-none cursor-pointer"
                         value={filter}
                         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFilter(e.target.value as 'all' | 'pending' | 'approved' | 'rejected')}
                     >
@@ -103,7 +112,7 @@ export default function ListingTable() {
                                 </td>
                             </tr>
                         ) : (
-                            filteredListings.map((listing) => (
+                            paginatedListings.map((listing) => (
                                 <tr key={listing.id} >
                                     <td className="p-2 border-b-1 border-gray-200"><p>{listing.title}</p></td>
                                     <td className="p-2 border-b-1 border-gray-200"><p>₹{listing.price}</p></td>
@@ -134,12 +143,27 @@ export default function ListingTable() {
                     </tbody>
                 </table>
             </div>
+            {/* Pagination Controls */}
+            <div className="flex justify-center mt-4 space-x-2">
+                {Array.from({ length: totalPages }, (_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => setCurrentPage(i + 1)}
+                        className={`p-2 w-[2.4rem] rounded ${currentPage === i + 1 ? 'bg-black text-white' : 'bg-gray-200'
+                            }`}
+                    >
+                        {i + 1}
+                    </button>
+                ))}
+            </div>
+
             {/* Edit Listing Modal */}
             <EditListingModal
                 listing={selectedListing}
                 onClose={() => setSelectedListing(null)}
                 onSave={fetchListings}
             />
+
             {/* Audit Modal */}
             <AuditLogModal open={showAudit} onClose={() => setShowAudit(false)} />
         </div>
