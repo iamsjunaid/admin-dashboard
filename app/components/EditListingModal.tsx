@@ -3,6 +3,9 @@
 import { useEffect, useState } from 'react';
 
 import { Listing } from '@/lib/data';
+import { X } from 'lucide-react';
+import TooltipWithIcon from './ui/TooltipWithIcon';
+import Button from './ui/Button';
 
 type Props = {
   listing: Listing | null;
@@ -37,12 +40,19 @@ export default function EditListingModal({ listing, onClose, onSave }: Props) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 w-full max-w-md">
-        <h3 className="text-xl font-semibold mb-4">Edit Listing</h3>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-md font-semibold mb-4">Edit Listing</h3>
+          <TooltipWithIcon
+            label="Close"
+            icon={<X size={16} />}
+            onClick={onClose}
+          />
+        </div>
         <div className="mb-4">
           <label className="block mb-1 text-sm">Title</label>
           <input
             type="text"
-            className="w-full border px-2 py-1 rounded"
+            className="w-full bg-gray-200 px-2 py-1 rounded"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -51,16 +61,15 @@ export default function EditListingModal({ listing, onClose, onSave }: Props) {
           <label className="block mb-1 text-sm">Price (₹)</label>
           <input
             type="number"
-            className="w-full border px-2 py-1 rounded"
+            className="w-full bg-gray-200 px-2 py-1 rounded"
             value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
           />
         </div>
-        <div className="flex justify-end space-x-2">
-          <button onClick={onClose} className="px-4 py-2 text-gray-700">Cancel</button>
-          <button onClick={handleSubmit} className="bg-blue-600 text-white px-4 py-2 rounded">
+        <div className="flex justify-center space-x-2">
+          <Button onClick={handleSubmit} variant='primary' className='w-full'>
             Save
-          </button>
+          </Button>
         </div>
       </div>
     </div>
