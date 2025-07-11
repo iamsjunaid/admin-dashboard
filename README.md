@@ -62,17 +62,7 @@ app/
 ![alt text](Admin-Dashboard-07-11-2025_12_30_PM.png)
 ![alt text](Admin-Dashboard-07-11-2025_12_29_PM.png)
 
-## Deploy
+## Deployement
 
-**Render:**
-1. Push to GitHub
-2. Create Web Service on render.com
-3. Connect repository
-4. Build: `npm run build`
-5. Start: `npm start`
+[Live Demo](https://admin-dashboard-ub05.onrender.com)
 
-**Vercel:**
-```bash
-npm i -g vercel
-vercel
-```
