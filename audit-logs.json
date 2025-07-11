@@ -5,5 +5,19 @@
     "action": "APPROVED",
     "listingId": "1",
     "timestamp": "2025-07-10T14:11:55.411Z"
+  },
+  {
+    "id": "2",
+    "admin": "admin@example.com",
+    "action": "APPROVED",
+    "listingId": "1",
+    "timestamp": "2025-07-11T05:36:37.906Z"
+  },
+  {
+    "id": "3",
+    "admin": "admin@example.com",
+    "action": "APPROVED",
+    "listingId": "1",
+    "timestamp": "2025-07-11T05:47:52.287Z"
   }
 ]
