@@ -37,7 +37,7 @@ export default function LoginPage() {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mb-2 w-full p-2 border rounded"
+          className="mb-2 w-full p-2 bg-gray-200 rounded"
           required
         />
         <input
@@ -45,10 +45,10 @@ export default function LoginPage() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mb-2 w-full p-2 border rounded"
+          className="mb-2 w-full p-2 bg-gray-200 rounded"
           required
         />
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && <p className="text-sm">{error}</p>}
         <Button type="submit" className="mt-2 w-full" variant="primary">
           Login
         </Button>
