@@ -6,9 +6,9 @@ import path from 'path';
 
 const AUDIT_LOGS_PATH = path.join(process.cwd(), 'audit-logs.json');
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const id = params.id;
+    const { id } = await params;
     const { status } = await request.json();
 
     const listing = listings.find((l) => l.id === id);
