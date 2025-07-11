@@ -14,10 +14,8 @@ export type AuditLog = {
   timestamp: string;
 };
 
-// Mock data for listings
 export const listings: Listing[] = [];
 
-// loop through the listings and create mock data
 for (let i = 1; i <= 20; i++) {
   listings.push({
     id: i.toString(),

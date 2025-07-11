@@ -11,7 +11,6 @@ export async function GET() {
     const logs: AuditLog[] = JSON.parse(data);
     return NextResponse.json(logs);
   } catch (err: unknown) {
-    // If file doesn't exist, return empty array
     if (typeof err === 'object' && err !== null && 'code' in err && (err as { code?: string }).code === 'ENOENT') {
       return NextResponse.json([]);
     }
