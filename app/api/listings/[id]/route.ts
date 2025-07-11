@@ -24,13 +24,11 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       .find((c) => c.startsWith('admin_email='))
       ?.split('=')[1] ?? 'unknown';
 
-    // File-based audit log append
     let logs: AuditLog[] = [];
     try {
       const data = await fs.readFile(AUDIT_LOGS_PATH, 'utf-8');
       logs = JSON.parse(data);
     } catch (err) {
-      // If file doesn't exist, start with empty logs
       if (!(typeof err === 'object' && err !== null && 'code' in err && (err as { code?: string }).code === 'ENOENT')) {
         throw err;
       }
@@ -45,7 +43,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     logs.push(newLog);
     await fs.writeFile(AUDIT_LOGS_PATH, JSON.stringify(logs, null, 2), 'utf-8');
 
-    return NextResponse.json({ message: 'Status updated successfully' });
+    return NextResponse.json({ message: 'Updated' });
   } catch (error) {
     console.error('PATCH error:', error);
     return NextResponse.json({ error: 'Something went wrong' }, { status: 500 });

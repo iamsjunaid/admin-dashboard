@@ -27,7 +27,7 @@ export default async function DashboardPage() {
     return (
         <main>
             <div className="flex justify-between items-center mb-4 text-lg font-bold border-b-2 px-4 py-2">
-                <h1>Car Rentals Admin Dashboard</h1>
+                <h1>Admin Dashboard</h1>
                 <TooltipWithIcon
                     label="Logout"
                     className='bg-gray-200 hover:bg-gray-400 rounded p-2'

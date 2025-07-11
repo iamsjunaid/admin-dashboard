@@ -8,14 +8,12 @@ export async function POST(request: NextRequest) {
   if (email === "admin@example.com" && password === "password123") {
     const cookieStore = await cookies();
 
-    // Set authentication cookie
     cookieStore.set("auth", "true", {
       httpOnly: true,
       path: "/",
       maxAge: 60 * 60,
     });
 
-    // Set admin email cookie
     cookieStore.set("admin_email", email, {
       httpOnly: false,
       path: "/",

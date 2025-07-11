@@ -26,5 +26,33 @@
     "action": "APPROVED",
     "listingId": "2",
     "timestamp": "2025-07-11T06:59:37.021Z"
+  },
+  {
+    "id": "5",
+    "admin": "admin@example.com",
+    "action": "APPROVED",
+    "listingId": "1",
+    "timestamp": "2025-07-11T07:13:53.789Z"
+  },
+  {
+    "id": "6",
+    "admin": "admin@example.com",
+    "action": "REJECTED",
+    "listingId": "1",
+    "timestamp": "2025-07-11T07:14:24.446Z"
+  },
+  {
+    "id": "7",
+    "admin": "admin@example.com",
+    "action": "APPROVED",
+    "listingId": "1",
+    "timestamp": "2025-07-11T07:19:57.791Z"
+  },
+  {
+    "id": "8",
+    "admin": "admin@example.com",
+    "action": "APPROVED",
+    "listingId": "1",
+    "timestamp": "2025-07-11T07:42:08.133Z"
   }
 ]
