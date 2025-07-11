@@ -1,36 +1,133 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Admin Dashboard
+
+A modern admin dashboard built with Next.js 15, TypeScript, and Tailwind CSS for managing car rental listings, user authentication, and audit logs.
+
+## Features
+
+- Authentication system with secure login
+- Dashboard overview with listing statistics
+- Listing management with CRUD operations
+- Approval workflow for listings
+- Audit logs for activity tracking
+- Responsive design
+- TypeScript implementation
+
+## Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI
+- **Icons**: Lucide React & React Icons
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+
+- npm, yarn, or pnpm
+
+### Installation
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/iamsjunaid/admin-dashboard.git
+   cd admin-dashboard
+   ```
+
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+
+3. Run the development server
+   ```bash
+   npm run dev
+   ```
+
+4. Open http://localhost:3000 in your browser
+
+### Default Login
+- Username: `admin@example.com`
+- Password: `password123`
+
+## Project Structure
+
+```
+admin-dashboard/
+├── app/
+│   ├── api/
+│   │   ├── auth/login/          # Authentication endpoints
+│   │   ├── audit-logs/          # Audit log API
+│   │   └── listings/            # Listing management API
+│   ├── components/
+│   │   ├── ui/                  # Reusable UI components
+│   │   ├── AuditLogModal.tsx    # Audit log viewer
+│   │   ├── EditListingModal.tsx # Listing editor
+│   │   ├── ListingTable.tsx     # Main data table
+│   │   └── Toast.tsx            # Notification system
+│   ├── context/
+│   │   └── FeedbackContext.tsx  # Global state management
+│   ├── dashboard/
+│   │   └── page.tsx             # Main dashboard page
+│   ├── globals.css              # Global styles
+│   ├── layout.tsx               # Root layout
+│   └── page.tsx                 # Landing/login page
+├── lib/
+│   └── data.ts                  # Data types and utilities
+├── utils/                       # Utility functions
+└── public/                      # Static assets
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## API Endpoints
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/auth/login` | POST | User authentication |
+| `/api/listings` | GET | Fetch all listings |
+| `/api/listings/[id]` | PUT | Update specific listing |
+| `/api/audit-logs` | GET | Fetch audit logs |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Screenshots
+![alt text](Admin-Dashboard-07-11-2025_12_28_PM.png)
+![alt text](<Admin-Dashboard-07-11-2025_12_28_PM (1).png>)
+![alt text](Admin-Dashboard-07-11-2025_12_30_PM.png)
+ ![alt text](Admin-Dashboard-07-11-2025_12_29_PM.png)
+## Key Components
 
-## Learn More
+- **Listing Table**: Paginated table with filtering
+- **Status Management**: Approve/reject listings
+- **Edit Modal**: In-place editing
+- **Audit Trail**: Activity history
+- **Authentication**: Cookie-based sessions
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Render
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Push to GitHub
+2. Create account at render.com
+3. Create Web Service
+4. Connect repository
+5. Set build command: `npm run build`
+6. Set start command: `npm start`
 
-## Deploy on Vercel
+### Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm install -g vercel
+vercel
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts
+
+```bash
+npm run dev      # Development server
+npm run build    # Build for production
+npm run start    # Start production server
+npm run lint     # Run ESLint
+```
+
+## License
+
+MIT License
