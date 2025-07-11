@@ -31,7 +31,7 @@ export default async function DashboardPage() {
                 <TooltipWithIcon
                     label="Logout"
                     className='bg-gray-200 hover:bg-gray-400 rounded p-2'
-                    icon={<Power size={16} color='red' />}
+                    icon={<Power size={16} />}
                     onClick={onClose}
                 />
             </div>
